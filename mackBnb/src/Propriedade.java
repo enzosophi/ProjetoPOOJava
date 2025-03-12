@@ -62,4 +62,14 @@ class Propriedade {
             System.out.println("Está propriedade não está disponível para alugar!");
         }
     }
+
+    public void verificarAlugada() {
+        if(disponivel == 0) {
+            System.out.println("Está propriedade está alugada!");
+        }
+        
+        else {
+            System.out.println("Está propriedade não está alugada!");
+        }
+    }
 }
