@@ -5,8 +5,19 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner tcl = new Scanner(System.in);
-        List<Usuario> usuarios = new ArrayList<>(); // O array que lista os users que vão ser criado.
-        String nome, email, senha;
+        List<Usuario> usuarios = new ArrayList<>(); 
+        List<Propriedade> propriedades = new ArrayList<>(); 
+        String nome, email, senha, titulo, descricao, localizacao, proprietario;
+        int disponivel, capacidade;
+        double precoPorNoite;
+        int achouProp = 0;
+  
+
+        usuarios.add(new Usuario("João Paulo", "JoaoP123@gmail.com", "123Papel"));
+        usuarios.add(new Usuario("Marcio Santos", "MarcioS321@gmail.com", "Level123"));
+
+        propriedades.add(new Propriedade("Casa de Praia", "Casa com vista para o mar", "Praia de Boa Viagem", 5, 1000.00, "João Paulo"));
+
         while(true){
         while(true){
         System.out.print("Digite seu nome: ");
@@ -37,10 +48,110 @@ public class Main {
             break;
         }
     }
-        System.out.print("\nLista de users cadastrados");
-            for(Usuario usuario: usuarios){
-             usuario.exibirInfo();
-             }
 
+        while(true) {
+            System.out.println("MENU DE OPÇÕES");
+            System.out.println("1 - Quero ser um proprietário");
+            System.out.println("2 - Quero ser um usuário");
+            System.out.println("3 - Listar users cadastrados");
+            System.out.println("4 - Listar propriedades cadastradas");
+            System.out.println("5 - Sair");
+            System.out.print("Digite a opção desejada: ");
+            int opcao = tcl.nextInt();
+
+            if (opcao == 1) {
+                while(true) {
+                    System.out.println("MENU DO PROPRIETÁRIO");
+                    System.out.println("1 - Cadastrar propriedade");
+                    System.out.println("2 - Exibir de detalhes de propriedades");
+                    System.out.println("3 - Listar propriedades alugadas");
+                    System.out.println("4 - Sair");
+                    System.out.print("Digite a opção desejada: ");
+                    int opcaoProprietario = tcl.nextInt();
+
+                    if (opcaoProprietario == 1) {
+                        tcl.nextLine();
+                        System.out.print("Digite o título da propriedade: ");
+                        titulo = tcl.nextLine();
+                        System.out.print("Digite a descrição da propriedade: ");
+                        descricao = tcl.nextLine();
+                        System.out.print("Digite a localização da propriedade: ");
+                        localizacao = tcl.nextLine();
+                        System.out.print("Digite a capacidade da propriedade: ");
+                        capacidade = tcl.nextInt();
+                        tcl.nextLine();
+                        System.out.print("Digite o preço por noite da propriedade: ");
+                        precoPorNoite = tcl.nextDouble();
+                        tcl.nextLine();
+                        System.out.print("Digite o nome do proprietário: ");
+                        proprietario = tcl.nextLine();
+                        propriedades.add(new Propriedade(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario));
+                    }
+
+                    if (opcaoProprietario == 2) {
+                        System.out.println("Digite o título da propriedade que deseja ver os detalhes: ");
+                        tcl.nextLine();
+                        String tituloPropriedade = tcl.nextLine();
+                        for(Propriedade propriedade: propriedades) {
+                            if (propriedade.titulo.equals(tituloPropriedade)) {
+                                propriedade.exibirPropriedade();
+                                achouProp = 1;
+                            }
+                        }
+
+                        if (achouProp == 0) {
+                            System.out.println("Propriedade não encontrada!");
+                        }
+                        else {
+                            achouProp = 0;
+                        }
+                    }
+
+                    if (opcaoProprietario == 3) {
+                        System.out.print("\nLista de propriedades alugadas\n");
+                        for(Propriedade propriedade: propriedades) {
+                            System.out.printf("A propriedade %s tem o status de: \n", propriedade.titulo);
+                            propriedade.verificarAlugada();
+                        }
+                    }
+
+                    if (opcaoProprietario == 4) {
+                        break;
+                    }
+
+                    if (opcao < 1 || opcao > 4) {
+                        System.out.println("Opção inválida!");
+                        continue;
+                    }
+
+                }
+            }
+
+            if (opcao == 5) {
+                break;
+            }
+
+            if (opcao < 1 || opcao > 5) {
+                System.out.println("Opção inválida!");
+                continue;
+            }
+
+            if (opcao == 3) {
+                System.out.print("\nLista de users cadastrados\n");
+                for(Usuario usuario: usuarios){
+                    usuario.exibirInfo();
+                }
+                continue;
+            }
+
+            if (opcao == 4) {
+                System.out.print("\nLista de propriedades cadastradas\n");
+                for(Propriedade propriedade: propriedades) {
+                    propriedade.exibirPropriedade();
+                }
+                continue;
+            }
+        }
+        
     }
 }
