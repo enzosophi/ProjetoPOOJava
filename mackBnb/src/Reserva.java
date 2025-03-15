@@ -1,10 +1,11 @@
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+
 class Reserva {
     Propriedade propriedade;
     Usuario usuario;
-    String checkin;
-    String checkout;
+    LocalDate checkin;
+    LocalDate checkout;
     double custoTotal;
     public Reserva(LocalDate checkin, LocalDate checkout, Propriedade propriedade, Usuario usuario) {
         if (checkin == null || checkout == null) {
@@ -36,9 +37,9 @@ class Reserva {
     }
 
     public void alugarPropriedade(){
-        if(getDisponivel() ==1){
-            setDisponivel(0);
-            System.out.println("Propriedade " + getTitulo() + " foi alugada com sucesso!");
+        if(propriedade.getDisponivel() == 1){
+            propriedade.setDisponivel(0);
+            System.out.println("Propriedade " + propriedade.getTitulo() + " foi alugada com sucesso!");
         }
         else{
             System.out.println("Erro: Esta propriedade já está alugada!");  
