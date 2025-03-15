@@ -112,7 +112,7 @@ public class Main {
 
                         boolean achouPropriedade = false;
                         for(Propriedade propriedade: propriedades) {
-                            if (propriedade.titulo.equals(tituloPropriedade)) {
+                            if (propriedade.titulo.equalsIgnoreCase(tituloPropriedade)) {
                                 propriedade.exibirPropriedade();
                                 achouPropriedade = true;
                                 break;
