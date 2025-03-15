@@ -68,16 +68,6 @@ class Propriedade {
         }
     }
 
-    public void alugarPropriedade(){
-        if(disponivel ==1){
-            disponivel = 0;
-            System.out.println("Propriedade " + titulo + " foi alugada com sucesso!");
-        }
-        else{
-            System.out.println("Erro: Esta propriedade já está alugada!");  
-        }
-    }
-
     public void verificarAlugada() {
         if(disponivel == 0) {
             System.out.println("Está propriedade está alugada!");
@@ -86,5 +76,9 @@ class Propriedade {
         else {
             System.out.println("Está propriedade não está alugada!");
         }
+    }
+
+    public void setDisponivel(int disponivel) {
+        this.disponivel = disponivel;
     }
 }
