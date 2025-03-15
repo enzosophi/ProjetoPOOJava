@@ -3,20 +3,30 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    public static Usuario validaNomeProprietario(String nomeProprietario, List<Usuario> usuarios) {
+        for(Usuario usuario: usuarios) {
+            if (usuario.nome.equals(nomeProprietario)) {
+                return usuario;
+            }
+        }
+        return null;
+    } 
     public static void main(String[] args) {
         Scanner tcl = new Scanner(System.in);
         List<Usuario> usuarios = new ArrayList<>(); 
         List<Propriedade> propriedades = new ArrayList<>(); 
-        String nome, email, senha, titulo, descricao, localizacao, proprietario;
+        String nome, email, senha, titulo, descricao, localizacao, proprietarioNome;
         int disponivel, capacidade;
         double precoPorNoite;
         int achouProp = 0;
+        Usuario proprietario;
   
 
         usuarios.add(new Usuario("João Paulo", "JoaoP123@gmail.com", "123Papel"));
         usuarios.add(new Usuario("Marcio Santos", "MarcioS321@gmail.com", "Level123"));
 
-        propriedades.add(new Propriedade("Casa de Praia", "Casa com vista para o mar", "Praia de Boa Viagem", 5, 1000.00, "João Paulo"));
+        propriedades.add(new Propriedade("Casa de Praia", "Casa com vista para o mar", "Praia de Boa Viagem", 5, 1000.00, usuarios.get(0)));
 
         while(true){
         while(true){
@@ -84,7 +94,12 @@ public class Main {
                         precoPorNoite = tcl.nextDouble();
                         tcl.nextLine();
                         System.out.print("Digite o nome do proprietário: ");
-                        proprietario = tcl.nextLine();
+                        proprietarioNome = tcl.nextLine();
+                        proprietario = validaNomeProprietario(proprietarioNome, usuarios);
+                        if (proprietario == null) {
+                            System.out.println("Proprietário não encontrado!");
+                            continue;
+                        }
                         propriedades.add(new Propriedade(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario));
                     }
 

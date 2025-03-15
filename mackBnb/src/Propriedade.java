@@ -5,9 +5,9 @@ class Propriedade {
     String localizacao;
     int capacidade;
     double precoPorNoite;
-    String proprietario;
+    Usuario proprietario;
     
-    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, String proprietario) {
+    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Usuario proprietario) {
         
         if (titulo == null || titulo.trim().isEmpty()) {
             throw new IllegalArgumentException("O título da propriedade não pode ser vazio ou conter apenas espaços em branco.");
@@ -23,10 +23,6 @@ class Propriedade {
     
         if (precoPorNoite <= 0) {
             throw new IllegalArgumentException("O preço por noite não pode ser menor ou igual a zero.");
-        }
-        
-        if (proprietario == null || proprietario.trim().isEmpty()) {
-            throw new IllegalArgumentException("O proprietario da propriedade não pode ser vazio ou conter apenas espaços em branco.");
         }
         
         this.disponivel = 1;
@@ -50,7 +46,7 @@ class Propriedade {
         System.out.println("Localização: " + localizacao);
         System.out.println("Capacidade: " + capacidade);
         System.out.println("Preço por noite: " + precoPorNoite);
-        System.out.println("O proprietário se chama: " + proprietario);
+        System.out.println("O proprietário se chama: " + proprietario.nome);
     }
     
     public void verificarDisponibilidade() {
