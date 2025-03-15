@@ -48,7 +48,16 @@ class Propriedade {
         System.out.println("Preço por noite: " + precoPorNoite);
         System.out.println("O proprietário se chama: " + proprietario.nome);
     }
+
     
+    public String getTitulo() {
+        return titulo;
+    }
+    
+    public int getDisponivel() {
+        return disponivel;
+    }
+
     public void verificarDisponibilidade() {
         if(disponivel == 1) {
             System.out.println("Está propriedade está disponível para alugar!");
@@ -56,6 +65,16 @@ class Propriedade {
         
         else {
             System.out.println("Está propriedade não está disponível para alugar!");
+        }
+    }
+
+    public void alugarPropriedade(){
+        if(disponivel ==1){
+            disponivel = 0;
+            System.out.println("Propriedade " + titulo + " foi alugada com sucesso!");
+        }
+        else{
+            System.out.println("Erro: Esta propriedade já está alugada!");  
         }
     }
 

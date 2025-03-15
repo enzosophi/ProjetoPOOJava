@@ -21,6 +21,7 @@ public class Main {
         double precoPorNoite;
         int achouProp = 0;
         Usuario proprietario;
+
   
 
         usuarios.add(new Usuario("João Paulo", "JoaoP123@gmail.com", "123Papel"));
@@ -68,6 +69,7 @@ public class Main {
             System.out.println("5 - Sair");
             System.out.print("Digite a opção desejada: ");
             int opcao = tcl.nextInt();
+            tcl.nextLine();
 
             if (opcao == 1) {
                 while(true) {
@@ -103,22 +105,21 @@ public class Main {
                         propriedades.add(new Propriedade(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario));
                     }
 
-                    if (opcaoProprietario == 2) {
+                    if (opcaoProprietario == 2) { // encurtei a opção 2 mas a função é a mesma
                         System.out.println("Digite o título da propriedade que deseja ver os detalhes: ");
                         tcl.nextLine();
                         String tituloPropriedade = tcl.nextLine();
+
+                        boolean achouPropriedade = false;
                         for(Propriedade propriedade: propriedades) {
                             if (propriedade.titulo.equals(tituloPropriedade)) {
                                 propriedade.exibirPropriedade();
-                                achouProp = 1;
+                                achouPropriedade = true;
+                                break;
                             }
                         }
-
-                        if (achouProp == 0) {
-                            System.out.println("Propriedade não encontrada!");
-                        }
-                        else {
-                            achouProp = 0;
+                        if(!achouPropriedade){
+                            System.out.println("Propriedade não achada");
                         }
                     }
 
@@ -140,7 +141,7 @@ public class Main {
                     }
 
                 }
-            }
+            } //quebra do terminal proprietário
 
             if (opcao == 5) {
                 break;
@@ -150,6 +151,62 @@ public class Main {
                 System.out.println("Opção inválida!");
                 continue;
             }
+
+           
+            if (opcao == 2) {
+                while(true){
+                System.out.println("MENU DE CLIENTE");
+                System.out.println("1 - Fazer uma reserva");
+                System.out.println("2 - Consultar minhas reservas");
+                System.out.println("3 - Sair");
+                System.out.print("Digite a opção desejada: ");
+                int opcaoUsuario = tcl.nextInt();
+
+                if(opcaoUsuario == 1){
+                    System.out.println("\nPropriedades disponíveis para reserva:");
+                    boolean encontrouDisponivel = false;
+
+                    for (Propriedade propriedade : propriedades) {
+                        if (propriedade.getDisponivel() == 1) { // Apenas propriedades disponíveis
+                            propriedade.exibirPropriedade(); // Exibe detalhes completos
+                            encontrouDisponivel = true;
+                        }
+                    }
+
+                    if(!encontrouDisponivel){
+                        System.out.println("Nenhuma propriedadde disponivel no momento");
+                    }else{
+                   tcl.nextLine();
+                   System.out.println("Qual propriedade vai reservar?");
+                   String reservar = tcl.nextLine();
+                   
+                   boolean propriedadeAchada = false;
+
+                   for(Propriedade propriedade: propriedades){
+                    if(propriedade.getTitulo().equalsIgnoreCase(reservar)){
+                        propriedadeAchada = true;
+                     
+                     if(propriedade.getDisponivel()==1){// se é disponivel para alugar
+                     propriedade.alugarPropriedade();
+                     System.out.println("Reserva realizada com sucesso!");
+                     }
+                     else{
+                        System.err.println("Propriedade já alugada");
+                     }
+                     break;
+                   }
+                }
+                if (!propriedadeAchada) {
+                    System.out.println("Erro: Propriedade não encontrada!");
+                   }  
+                }
+            }
+                if(opcaoUsuario ==3){
+                    break;
+                }
+            }
+        }
+    
 
             if (opcao == 3) {
                 System.out.print("\nLista de users cadastrados\n");
@@ -161,9 +218,13 @@ public class Main {
 
             if (opcao == 4) {
                 System.out.print("\nLista de propriedades cadastradas\n");
+                if(propriedades.isEmpty()){
+                    System.out.println("Não tem propriedade Cadastrada\n"); // caso não tenha propriedades cadastradas
+                }else{
                 for(Propriedade propriedade: propriedades) {
                     propriedade.exibirPropriedade();
                 }
+            }
                 continue;
             }
         }
