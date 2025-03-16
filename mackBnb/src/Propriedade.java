@@ -24,6 +24,10 @@ class Propriedade {
         if (precoPorNoite <= 0) {
             throw new IllegalArgumentException("O preço por noite não pode ser menor ou igual a zero.");
         }
+
+        if (proprietario == null) {
+            throw new IllegalArgumentException("O proprietário não pode ser nulo.");
+        }
         
         this.disponivel = 1;
         this.titulo = titulo;
