@@ -1,3 +1,6 @@
+//Nome dos integrantes: Daniel Borges Valentim - 10427564 
+//                      João Vitor Golfieri Mendonça - 10434460
+//                      Enzo Pinheiro De Oliveira - 10434443
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +131,7 @@ public class Main {
                         propriedades.add(new Propriedade(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario));
                     }
 
-                    if (opcaoProprietario == 2) { // encurtei a opção 2 mas a função é a mesma
+                    if (opcaoProprietario == 2) { 
                         System.out.println("Digite o título da propriedade que deseja ver os detalhes: ");
                         tcl.nextLine();
                         String tituloPropriedade = tcl.nextLine();
@@ -164,7 +167,7 @@ public class Main {
                     }
 
                 }
-            } //quebra do terminal proprietário
+            } 
 
             if (opcao == 5) {
                 break;
@@ -226,7 +229,7 @@ public class Main {
                                     Reserva novaReserva = new Reserva(checkin, checkout, propriedade, usuarioAtual);
                                     novaReserva.alugarPropriedade();
                 
-                                    reservas.add(novaReserva); // Armazena a reserva
+                                    reservas.add(novaReserva); 
                                     System.out.println("Reserva realizada com sucesso!");
                                 } else {
                                     System.out.println("Propriedade já alugada.");
