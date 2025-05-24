@@ -1,6 +1,7 @@
 
 package com.example.abstrata;
 
+import com.example.Proprietario;
 import java.util.Objects;
 
 public abstract class Propriedade {
@@ -12,9 +13,9 @@ public abstract class Propriedade {
     private int capacidade;
     private double precoPorNoite;
     private String imagem;
-    private Usuario proprietario;
+    private Proprietario proprietario;
 
-    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Usuario proprietario, String imagem) {
+    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem) {
         if (titulo == null || titulo.trim().isEmpty()) {
             throw new IllegalArgumentException("O título da propriedade não pode ser vazio ou conter apenas espaços em branco.");
         }
@@ -47,14 +48,17 @@ public abstract class Propriedade {
         System.out.println("Descrição: " + descricao);
         System.out.println("Localização: " + localizacao);
         System.out.println("Capacidade: " + capacidade);
-        System.out.println("Preço por noite: " + precoPorNoite);
-
-        System.out.println("O proprietário se chama: " + proprietario.getNome());
-        System.out.println("Imagem: " + imagem);
+        System.out.println("Preço por noite: " + String.format("%.2f", precoPorNoite));
+        if (proprietario != null) {
+            System.out.println("O proprietário se chama: " + proprietario.getNome());
+        } else {
+            System.out.println("Proprietário: Não atribuído");
+        }
+        System.out.println("Imagem: " + (imagem != null && !imagem.isEmpty() ? imagem : "N/A"));
     }
 
     // Getters e Setters
-      public boolean isDisponivel() {
+    public boolean isDisponivel() {
         return disponivel == 1;
     }
 
@@ -62,7 +66,6 @@ public abstract class Propriedade {
         this.disponivel = disponivel ? 1 : 0;
     }
    
-
     public String getTitulo() {
         return titulo;
     }
@@ -123,12 +126,11 @@ public abstract class Propriedade {
         this.imagem = imagem;
     }
 
-    public Usuario getProprietario() {
+    public Proprietario getProprietario() {
         return proprietario;
     }
-
     
-    public void setProprietario(Usuario proprietario) {
+    public void setProprietario(Proprietario proprietario) {
         if (proprietario == null) {
             throw new IllegalArgumentException("O proprietário não pode ser nulo.");
         }
@@ -136,7 +138,6 @@ public abstract class Propriedade {
     }
 
     // Métodos auxiliares para verificar disponibilidade e aluguel
-
     public void verificarDisponibilidade() {
         if (disponivel == 1) {
             System.out.println("Esta propriedade está disponível para alugar!");
@@ -152,7 +153,8 @@ public abstract class Propriedade {
             System.out.println("Esta propriedade não está alugada!");
         }
     }
-      @Override
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true; // mesmo objeto
         if (o == null || getClass() != o.getClass()) return false; // null ou classes diferentes
@@ -170,4 +172,6 @@ public abstract class Propriedade {
         // Consistente com equals: usa título, localização e proprietário
         return Objects.hash(titulo, localizacao, proprietario);
     }
+
+    public abstract double calcularPrecoTotal(int dias);
 }

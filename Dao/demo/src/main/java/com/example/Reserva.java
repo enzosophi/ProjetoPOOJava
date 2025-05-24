@@ -24,8 +24,7 @@ public class Reserva {
         this.checkin = checkin;
         this.checkout = checkout;
 
-        long dias = ChronoUnit.DAYS.between(checkin, checkout);
-        this.custoTotal = propriedade.getPrecoPorNoite() * dias;
+        calcularCustoTotal();
     }
 
     public void exibirReserva() {
@@ -33,15 +32,62 @@ public class Reserva {
         System.out.println("Cliente: " + cliente.getNome());
         System.out.println("Check-in: " + checkin);
         System.out.println("Check-out: " + checkout);
-        System.out.println("Custo total: R$ " + custoTotal);
+        System.out.println("Custo total: R$ " + String.format("%.2f", custoTotal));
     }
 
-    public void alugar() {
+    public void alugarPropriedade() {
         if (propriedade.isDisponivel()) {
             propriedade.setDisponivel(false);
-            System.out.println("Propriedade alugada com sucesso!");
+            System.out.println("Propriedade '" + propriedade.getTitulo() + "' alugada com sucesso!");
         } else {
-            System.out.println("Erro: Propriedade já está alugada.");
+            System.out.println("A propriedade '" + propriedade.getTitulo() + "' não está disponível para alugar.");
         }
+    }
+
+    public double calcularCustoTotal() {
+        long dias = ChronoUnit.DAYS.between(checkin, checkout); 
+        if (dias < 1) {
+            this.custoTotal = propriedade.calcularPrecoTotal(1);
+        } else {
+            this.custoTotal = propriedade.calcularPrecoTotal((int) dias);
+        }
+        return this.custoTotal;
+    }
+
+    // Getters and Setters
+    public Propriedade getPropriedade() {
+        return propriedade;
+    }
+
+    public void setPropriedade(Propriedade propriedade) {
+        this.propriedade = propriedade;
+    }
+
+    public Usuario getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Usuario cliente) {
+        this.cliente = cliente;
+    }
+
+    public LocalDate getCheckin() {
+        return checkin;
+    }
+
+    public void setCheckin(LocalDate checkin) {
+        this.checkin = checkin;
+    }
+
+    public LocalDate getCheckout() {
+        return checkout;
+    }
+
+    public void setCheckout(LocalDate checkout) {
+        this.checkout = checkout;
+    }
+
+    public double getCustoTotal() {
+        return custoTotal;
     }
 }
