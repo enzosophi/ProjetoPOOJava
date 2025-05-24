@@ -1,3 +1,4 @@
+package com.example;
 //Nome dos integrantes: Daniel Borges Valentim - 10427564 
 //                      João Vitor Golfieri Mendonça - 10434460
 //                      Enzo Pinheiro De Oliveira - 10434443
@@ -6,11 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.example.abstrata.Usuario;
+import com.example.abstrata.Propriedade;
+
 public class Main {
 
     public static Usuario validaNomeProprietario(String nomeProprietario, List<Usuario> usuarios) {
         for(Usuario usuario: usuarios) {
-            if (usuario.nome.equalsIgnoreCase(nomeProprietario)) {
+            if (usuario.getNome().equalsIgnoreCase(nomeProprietario)) {
                 return usuario;
             }
         }
@@ -19,7 +23,7 @@ public class Main {
 
     public static Usuario buscarUsuario(String nome, List<Usuario> usuarios) {
         for (Usuario usuario : usuarios) {
-            if (usuario.nome.equalsIgnoreCase(nome)) {
+            if (usuario.getNome().equalsIgnoreCase(nome)) {
                 return usuario;
             }
         }
@@ -35,18 +39,6 @@ public class Main {
         double precoPorNoite;
         int achouProp = 0;
         Usuario proprietario;
-
-        usuarios.add(new Usuario("João Paulo", "JoaoP123@gmail.com", "123Papel"));
-        usuarios.add(new Usuario("Daniel Borges", "dani2014games@gmail.com", "CalculoDiferencialIntegraleLegal123"));
-        usuarios.add(new Usuario("Marcio Santos", "MarcioS321@gmail.com", "Level123"));
-        usuarios.add(new Usuario("Leandro Donizetti", "LeandroDoniGames2015@gmail.com", "Vish123"));
-
-        propriedades.add(new Propriedade("Casa de Praia", "Casa com vista para o mar", "Praia de Boa Viagem", 5, 1000.00, usuarios.get(2)));
-        propriedades.add(new Propriedade("Casa de Campo", "Casa com vista para a montanha", "Serra da Mantiqueira", 10, 2000.00, usuarios.get(3)));
-
-        Reserva reservaTeste = new Reserva(LocalDate.parse("2021-10-10"), LocalDate.parse("2021-10-15"), propriedades.get(0), usuarios.get(1));
-        reservaTeste.alugarPropriedade();
-        reservas.add(reservaTeste);
 
         while(true){
             while(true){
@@ -193,7 +185,7 @@ public class Main {
                     boolean encontrouDisponivel = false;
                 
                     for (Propriedade propriedade : propriedades) {
-                        if (propriedade.getDisponivel() == 1) {
+                        if (propriedade.isDisponivel()) {
                             propriedade.exibirPropriedade();
                             encontrouDisponivel = true;
                         }
