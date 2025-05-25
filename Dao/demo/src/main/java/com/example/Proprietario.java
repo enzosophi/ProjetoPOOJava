@@ -59,7 +59,7 @@ public class Proprietario extends Usuario {
     @Override
     public void imprimirDados() {
         System.out.println("Tipo de Usuário: Proprietário");
-        System.out.println("ID: " + getId()); // getId() agora vem da classe Usuario
+        System.out.println("ID: " + getId());
         System.out.println("Nome: " + getNome());
         System.out.println("Email: " + getEmail());
         System.out.println("Número de propriedades cadastradas: " + propriedades.size());

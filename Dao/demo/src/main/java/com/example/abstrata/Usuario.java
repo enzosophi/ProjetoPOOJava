@@ -1,14 +1,13 @@
 package com.example.abstrata;
 
-import java.util.Objects; // Necessário para Objects.hash e Objects.equals
+import java.util.Objects;
 
 public abstract class Usuario {
-    private int id; // Adicionado o ID para persistência
+    private int id; 
     private String nome;
     private String email;
     private String senha;
 
-    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
     public Usuario(int id, String nome, String email, String senha) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio.");
@@ -25,13 +24,10 @@ public abstract class Usuario {
         this.senha = senha;
     }
 
-    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
     public Usuario(String nome, String email, String senha) {
-        // O ID será definido pelo banco de dados após a inserção
-        this(0, nome, email, senha); // Chama o outro construtor com ID 0
+        this(0, nome, email, senha);
     }
 
-    // Getter e Setter para o ID
     public int getId() {
         return id;
     }
@@ -73,7 +69,6 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
-    // Método abstrato a ser implementado pelas subclasses
     public abstract void imprimirDados();
 
     @Override
@@ -81,7 +76,6 @@ public abstract class Usuario {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        // Se o ID for 0, significa que ainda não foi persistido, então comparamos por outros campos.
         if (this.id != 0 && usuario.id != 0) {
             return id == usuario.id;
         } else {

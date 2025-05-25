@@ -6,7 +6,6 @@ public class Casa extends Propriedade {
     private boolean possuiPiscina;
     private double precoPorPessoa;
 
-    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
     public Casa(int id, String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, boolean possuiPiscina, double precoPorPessoa) {
         super(id, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         this.possuiPiscina = possuiPiscina;
@@ -16,7 +15,6 @@ public class Casa extends Propriedade {
         this.precoPorPessoa = precoPorPessoa;
     }
 
-    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
     public Casa(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, boolean possuiPiscina, double precoPorPessoa) {
         super(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         this.possuiPiscina = possuiPiscina;

@@ -78,9 +78,8 @@ public class ReservaDao implements IReservaDAO {
                 int propId = rs.getInt("propriedade_id");
                 int cliId = rs.getInt("cliente_id");
 
-                // Buscar a propriedade e o cliente associados usando os DAOs
                 Propriedade propriedade = propriedadeDao.buscarPorId(propId);
-                Cliente cliente = (Cliente) clienteDao.buscarPorId(cliId); // Cast para Cliente
+                Cliente cliente = (Cliente) clienteDao.buscarPorId(cliId);
 
                 if (propriedade != null && cliente != null) {
                     reserva = new Reserva(
@@ -90,7 +89,7 @@ public class ReservaDao implements IReservaDAO {
                         rs.getDate("checkin_data").toLocalDate(),
                         rs.getDate("checkout_data").toLocalDate()
                     );
-                    reserva.setCustoTotal(rs.getDouble("custo_total")); // Setar o custo total do banco
+                    reserva.setCustoTotal(rs.getDouble("custo_total"));
                 } else {
                     System.err.println("Erro: Propriedade ou Cliente não encontrados para a reserva ID: " + id);
                 }
@@ -157,7 +156,7 @@ public class ReservaDao implements IReservaDAO {
             stmt.setInt(1, clienteId);
             rs = stmt.executeQuery();
 
-            Cliente cliente = (Cliente) clienteDao.buscarPorId(clienteId); // Buscar o cliente uma vez
+            Cliente cliente = (Cliente) clienteDao.buscarPorId(clienteId);
 
             while (rs.next()) {
                 int propId = rs.getInt("propriedade_id");
@@ -197,7 +196,7 @@ public class ReservaDao implements IReservaDAO {
             stmt.setInt(1, propriedadeId);
             rs = stmt.executeQuery();
 
-            Propriedade propriedade = propriedadeDao.buscarPorId(propriedadeId); // Buscar a propriedade uma vez
+            Propriedade propriedade = propriedadeDao.buscarPorId(propriedadeId);
 
             while (rs.next()) {
                 int cliId = rs.getInt("cliente_id");

@@ -33,7 +33,7 @@ public abstract class Propriedade {
         }
 
         this.id = id;
-        this.disponivel = 1; // Padrão: disponível
+        this.disponivel = 1;
         this.titulo = titulo;
         this.descricao = descricao;
         this.localizacao = localizacao;
@@ -72,7 +72,6 @@ public abstract class Propriedade {
         System.out.println();
     }
 
-    // Getters e Setters
     public boolean isDisponivel() {
         return disponivel == 1;
     }
@@ -152,7 +151,6 @@ public abstract class Propriedade {
         this.proprietario = proprietario;
     }
 
-    // Métodos auxiliares para verificar disponibilidade e aluguel
     public void verificarDisponibilidade() {
         if (disponivel == 1) {
             System.out.println("Esta propriedade está disponível para alugar!");
@@ -187,7 +185,6 @@ public abstract class Propriedade {
 
     @Override
     public int hashCode() {
-        // Consistente com equals: usa título, localização e proprietário
         return Objects.hash(id, titulo, localizacao, proprietario);
     }
 

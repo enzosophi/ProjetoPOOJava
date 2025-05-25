@@ -56,23 +56,22 @@ public class PropriedadeDao implements IPropriedadeDAO {
             if (propriedade instanceof Casa casa) {
                 stmt.setBoolean(10, casa.isPossuiPiscina());
                 stmt.setDouble(11, casa.getPrecoPorPessoa());
-                stmt.setNull(12, Types.INTEGER); // Andar (Apartamento)
-                stmt.setNull(13, Types.NUMERIC); // Taxa (Apartamento)
-                stmt.setNull(14, Types.NUMERIC); // Area Total (Sitio)
+                stmt.setNull(12, Types.INTEGER); 
+                stmt.setNull(13, Types.NUMERIC); 
+                stmt.setNull(14, Types.NUMERIC);
             } else if (propriedade instanceof Apartamento apto) {
-                stmt.setNull(10, Types.BOOLEAN); // Possui Piscina (Casa)
-                stmt.setNull(11, Types.NUMERIC); // Preco Por Pessoa (Casa)
+                stmt.setNull(10, Types.BOOLEAN);
+                stmt.setNull(11, Types.NUMERIC);
                 stmt.setInt(12, apto.getAndar());
                 stmt.setDouble(13, apto.getTaxa());
-                stmt.setNull(14, Types.NUMERIC); // Area Total (Sitio)
+                stmt.setNull(14, Types.NUMERIC);
             } else if (propriedade instanceof Sitio sitio) {
-                stmt.setNull(10, Types.BOOLEAN); // Possui Piscina (Casa)
-                stmt.setNull(11, Types.NUMERIC); // Preco Por Pessoa (Casa)
-                stmt.setNull(12, Types.INTEGER); // Andar (Apartamento)
-                stmt.setNull(13, Types.NUMERIC); // Taxa (Apartamento)
+                stmt.setNull(10, Types.BOOLEAN);
+                stmt.setNull(11, Types.NUMERIC); 
+                stmt.setNull(12, Types.INTEGER); 
+                stmt.setNull(13, Types.NUMERIC); 
                 stmt.setDouble(14, sitio.getAreaTotal());
             } else {
-                // Caso não seja nenhuma das subclasses conhecidas, setar tudo para null
                 stmt.setNull(10, Types.BOOLEAN);
                 stmt.setNull(11, Types.NUMERIC);
                 stmt.setNull(12, Types.INTEGER);
@@ -141,7 +140,6 @@ public class PropriedadeDao implements IPropriedadeDAO {
                         propriedade = new Sitio(propId, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem, areaTotal);
                         break;
                     default:
-                        // Lançar exceção ou logar erro para tipo desconhecido
                         System.err.println("Tipo de propriedade desconhecido: " + tipo);
                         break;
                 }
@@ -236,7 +234,6 @@ public class PropriedadeDao implements IPropriedadeDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                // Reutiliza a lógica de construção de Propriedade
                 Proprietario proprietario = new Proprietario(
                     rs.getInt("proprietario_id"),
                     rs.getString("proprietario_nome"),
@@ -301,7 +298,6 @@ public class PropriedadeDao implements IPropriedadeDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                // Reutiliza a lógica de construção de Propriedade
                 Proprietario proprietario = new Proprietario(
                     rs.getInt("proprietario_id"),
                     rs.getString("proprietario_nome"),
@@ -317,7 +313,7 @@ public class PropriedadeDao implements IPropriedadeDAO {
                 int capacidade = rs.getInt("capacidade");
                 double precoPorNoite = rs.getDouble("preco_por_noite");
                 String imagem = rs.getString("imagem");
-                boolean disponivel = rs.getBoolean("disponivel"); // Deve ser TRUE aqui
+                boolean disponivel = rs.getBoolean("disponivel");
 
                 Propriedade propriedade = null;
                 switch (tipo) {
@@ -372,34 +368,32 @@ public class PropriedadeDao implements IPropriedadeDAO {
             stmt.setBoolean(7, propriedade.isDisponivel());
             stmt.setInt(8, propriedade.getProprietario().getId());
 
-            // Setando campos específicos
             if (propriedade instanceof Casa casa) {
                 stmt.setBoolean(9, casa.isPossuiPiscina());
                 stmt.setDouble(10, casa.getPrecoPorPessoa());
-                stmt.setNull(11, Types.INTEGER); // Andar
-                stmt.setNull(12, Types.NUMERIC); // Taxa
-                stmt.setNull(13, Types.NUMERIC); // Area Total
+                stmt.setNull(11, Types.INTEGER); 
+                stmt.setNull(12, Types.NUMERIC); 
+                stmt.setNull(13, Types.NUMERIC); 
             } else if (propriedade instanceof Apartamento apto) {
-                stmt.setNull(9, Types.BOOLEAN); // Possui Piscina
-                stmt.setNull(10, Types.NUMERIC); // Preco Por Pessoa
+                stmt.setNull(9, Types.BOOLEAN); 
+                stmt.setNull(10, Types.NUMERIC); 
                 stmt.setInt(11, apto.getAndar());
                 stmt.setDouble(12, apto.getTaxa());
-                stmt.setNull(13, Types.NUMERIC); // Area Total
+                stmt.setNull(13, Types.NUMERIC); 
             } else if (propriedade instanceof Sitio sitio) {
-                stmt.setNull(9, Types.BOOLEAN); // Possui Piscina
-                stmt.setNull(10, Types.NUMERIC); // Preco Por Pessoa
-                stmt.setNull(11, Types.INTEGER); // Andar
-                stmt.setNull(12, Types.NUMERIC); // Taxa
+                stmt.setNull(9, Types.BOOLEAN); 
+                stmt.setNull(10, Types.NUMERIC); 
+                stmt.setNull(11, Types.INTEGER); 
+                stmt.setNull(12, Types.NUMERIC); 
                 stmt.setDouble(13, sitio.getAreaTotal());
             } else {
-                // Caso não seja nenhuma das subclasses conhecidas, setar tudo para null
                 stmt.setNull(9, Types.BOOLEAN);
                 stmt.setNull(10, Types.NUMERIC);
                 stmt.setNull(11, Types.INTEGER);
                 stmt.setNull(12, Types.NUMERIC);
                 stmt.setNull(13, Types.NUMERIC);
             }
-            stmt.setInt(14, propriedade.getId()); // WHERE clause
+            stmt.setInt(14, propriedade.getId());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {

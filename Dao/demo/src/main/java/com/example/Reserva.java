@@ -1,25 +1,23 @@
 package com.example;
 
 import com.example.abstrata.Propriedade;
-import com.example.abstrata.Usuario; // Assumindo que Cliente herda de Usuario
+import com.example.abstrata.Usuario;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Reserva {
-    private int id; // Adicionado o ID para persistência
+    private int id;
     private Propriedade propriedade;
     private Usuario cliente;
     private LocalDate checkin;
     private LocalDate checkout;
     private double custoTotal;
 
-    // Novos campos para armazenar IDs de FKs
     private int propriedadeId;
     private int clienteId;
 
-    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
     public Reserva(int id, Propriedade propriedade, Usuario cliente, LocalDate checkin, LocalDate checkout) {
         if (propriedade == null) {
             throw new IllegalArgumentException("Propriedade não pode ser nula para reserva.");
@@ -33,8 +31,7 @@ public class Reserva {
         if (checkin.isAfter(checkout)) {
             throw new IllegalArgumentException("A data de check-in deve ser anterior à data de check-out.");
         }
-        if (checkin.isBefore(LocalDate.now())) { // Não permitir reservas no passado
-            // Apenas um aviso, pode ser ajustado conforme a regra de negócio
+        if (checkin.isBefore(LocalDate.now())) { 
             System.out.println("Atenção: A data de check-in é no passado. Esta reserva pode não ser válida para novos agendamentos.");
         }
 
@@ -44,19 +41,16 @@ public class Reserva {
         this.checkin = checkin;
         this.checkout = checkout;
 
-        // Armazenar os IDs para persistência
         this.propriedadeId = propriedade.getId();
         this.clienteId = cliente.getId();
 
         calcularCustoTotal();
     }
 
-    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
     public Reserva(Propriedade propriedade, Usuario cliente, LocalDate checkin, LocalDate checkout) {
-        this(0, propriedade, cliente, checkin, checkout); // Chama o outro construtor com ID 0
+        this(0, propriedade, cliente, checkin, checkout);
     }
 
-    // Getter e Setter para o ID
     public int getId() {
         return id;
     }
@@ -83,7 +77,7 @@ public class Reserva {
 
 
     public void exibirReserva() {
-        System.out.println("ID da Reserva: " + id); // Adicionado o ID
+        System.out.println("ID da Reserva: " + id);
         System.out.println("Reserva para a propriedade: " + propriedade.getTitulo() + " (ID: " + propriedade.getId() + ")");
         System.out.println("Cliente: " + cliente.getNome() + " (ID: " + cliente.getId() + ")");
         System.out.println("Check-in: " + checkin);
@@ -110,7 +104,6 @@ public class Reserva {
         return this.custoTotal;
     }
 
-    // ... (restante dos getters e setters)
 
     public Propriedade getPropriedade() {
         return propriedade;
@@ -163,8 +156,6 @@ public class Reserva {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reserva reserva = (Reserva) o;
-        // Para reservas, o ID é o identificador único no banco de dados.
-        // Se o ID for 0, significa que ainda não foi persistido, então comparamos por outros campos.
         if (this.id != 0 && reserva.id != 0) {
             return id == reserva.id;
         } else {

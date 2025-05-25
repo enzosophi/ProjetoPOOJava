@@ -5,21 +5,19 @@ import com.example.abstrata.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects; // Importe Objects para o equals e hashCode
+import java.util.Objects;
 
 public class Cliente extends Usuario {
 
     private List<Reserva> reservasRealizadas;
 
-    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
     public Cliente(int id, String nome, String email, String senha) {
-        super(id, nome, email, senha); // Chama o construtor de Usuario com ID
+        super(id, nome, email, senha);
         this.reservasRealizadas = new ArrayList<>();
     }
 
-    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
     public Cliente(String nome, String email, String senha) {
-        super(nome, email, senha); // Chama o construtor de Usuario sem ID (que internamente chama com ID 0)
+        super(nome, email, senha);
         this.reservasRealizadas = new ArrayList<>();
     }
 
@@ -35,8 +33,8 @@ public class Cliente extends Usuario {
         }
 
         if (p.isDisponivel()) {
-            Reserva novaReserva = new Reserva(p, this, checkin, checkOut); // 'this' refere-se ao próprio objeto Cliente
-            novaReserva.alugarPropriedade(); // Marca a propriedade como indisponível
+            Reserva novaReserva = new Reserva(p, this, checkin, checkOut);
+            novaReserva.alugarPropriedade();
             this.reservasRealizadas.add(novaReserva);
             System.out.println("Reserva realizada com sucesso para a propriedade: " + p.getTitulo());
             System.out.println("Custo total da reserva: R$ " + String.format("%.2f", novaReserva.getCustoTotal()));
@@ -72,11 +70,10 @@ public class Cliente extends Usuario {
         }
     }
 
-    // Sobrescrevendo o método abstrato de Usuario
     @Override
     public void imprimirDados() {
         System.out.println("Tipo de Usuário: Cliente");
-        System.out.println("ID: " + getId()); // getId() agora vem da classe Usuario
+        System.out.println("ID: " + getId());
         System.out.println("Nome: " + getNome());
         System.out.println("Email: " + getEmail());
         System.out.println("Número de reservas realizadas: " + reservasRealizadas.size());
@@ -92,14 +89,11 @@ public class Cliente extends Usuario {
 
     @Override
     public boolean equals(Object o) {
-        // Chama o equals da superclasse Usuario que agora compara IDs
-        // Isso é suficiente se o ID for a chave primária e o identificador único.
         return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        // Chama o hashCode da superclasse Usuario que agora inclui o ID
         return super.hashCode();
     }
 }

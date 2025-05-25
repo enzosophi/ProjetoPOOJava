@@ -6,7 +6,6 @@ public class Apartamento extends Propriedade {
     private int andar;
     private double taxa;
 
-    // Construtor para quando o ID é conhecido
     public Apartamento(int id, String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, int andar, double taxa) {
         super(id, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         if (andar <= 0) {
@@ -18,8 +17,7 @@ public class Apartamento extends Propriedade {
         }
         this.taxa = taxa;
     }
-
-    // Construtor para quando o ID ainda não é conhecido
+    
     public Apartamento(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, int andar, double taxa) {
         super(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         if (andar <= 0) {
