@@ -8,10 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente extends Usuario {
-
+    private int id;  
     private List<Reserva> reservasRealizadas;
 
-    public Cliente(String nome, String email, String senha) {
+    public Cliente(int id,String nome, String email, String senha) {
+        super(nome, email, senha);
+        this.reservasRealizadas = new ArrayList<>();
+        this.id = id;
+    }
+
+     public Cliente(String nome, String email, String senha) {
         super(nome, email, senha);
         this.reservasRealizadas = new ArrayList<>();
     }
@@ -70,9 +76,18 @@ public class Cliente extends Usuario {
     @Override 
     public void imprimirDados() {
         System.out.println("Tipo de Usuário: Cliente");
+        System.out.println("ID: " + id);
         System.out.println("Nome: " + getNome());
         System.out.println("Email: " + getEmail());
         System.out.println("Número de reservas realizadas: " + reservasRealizadas.size());
+    }
+
+       public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<Reserva> getReservasRealizadas() {
@@ -82,4 +97,6 @@ public class Cliente extends Usuario {
     public void setReservasRealizadas(List<Reserva> reservasRealizadas) {
         this.reservasRealizadas = reservasRealizadas;
     }
+
+    
 }
