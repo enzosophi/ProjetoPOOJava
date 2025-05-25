@@ -1,37 +1,40 @@
 package com.example;
+
 import com.example.abstrata.Propriedade;
 import com.example.abstrata.Usuario;
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.Objects;
 
 public class Proprietario extends Usuario {
 
     private List<Propriedade> propriedades;
 
-    public Proprietario(String nome, String email, String senha){
-        super(nome,email,senha);
+    public Proprietario(int id, String nome, String email, String senha) {
+        super(id, nome, email, senha);
         this.propriedades = new ArrayList<>();
-
     }
-    
-    public void cadastrarPropriedade(Propriedade propriedade){
-        if (propriedade != null){
+
+    public Proprietario(String nome, String email, String senha) {
+        super(nome, email, senha);
+        this.propriedades = new ArrayList<>();
+    }
+
+    public void cadastrarPropriedade(Propriedade propriedade) {
+        if (propriedade != null) {
             propriedades.add(propriedade);
             System.out.println("Propriedade adicionada com sucesso!");
-        }
-        else {
-            System.out.println("Erro ao adicionar propriedade!");
+        } else {
+            System.out.println("Erro: A propriedade não pode ser nula ao cadastrar!");
         }
     }
 
-    public void listarPropriedades(){
-        if (propriedades.isEmpty()){
+    public void listarPropriedades() {
+        if (propriedades.isEmpty()) {
             System.out.println("Nenhuma propriedade cadastrada!");
-        } else{
+        } else {
             System.out.println("\n--- Propriedades Cadastradas por " + getNome() + " ---");
-            for(Propriedade p : propriedades){
+            for (Propriedade p : propriedades) {
                 p.exibirPropriedade();
                 System.out.println("------------------");
             }
@@ -44,32 +47,23 @@ public class Proprietario extends Usuario {
         for (Propriedade p : propriedades) {
             if (!p.isDisponivel()) {
                 p.exibirPropriedade();
-                System.out.println("------------------");
                 encontrouAlugada = true;
+                System.out.println("------------------");
             }
         }
         if (!encontrouAlugada) {
-            System.out.println("Nenhuma propriedade alugada!");
+            System.out.println("Nenhuma propriedade alugada no momento.");
         }
     }
 
-    @Override 
+    @Override
     public void imprimirDados() {
         System.out.println("Tipo de Usuário: Proprietário");
+        System.out.println("ID: " + getId()); // getId() agora vem da classe Usuario
         System.out.println("Nome: " + getNome());
         System.out.println("Email: " + getEmail());
         System.out.println("Número de propriedades cadastradas: " + propriedades.size());
     }
-
-    // public void removerPropriedade(Propriedade propriedade){
-    //     if(propriedade !=null){
-    //         propriedades.remove(propriedade);
-    //         System.out.println("Propriedade removida com sucesso!");
-    //     }
-    //     else{
-    //         System.out.println("Erro ao remover propriedade!");
-    //     }
-    // }
 
     public List<Propriedade> getPropriedades() {
         return propriedades;
@@ -77,5 +71,15 @@ public class Proprietario extends Usuario {
 
     public void setPropriedades(List<Propriedade> propriedades) {
         this.propriedades = propriedades;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -5,7 +5,7 @@ import com.example.Proprietario;
 import java.util.Objects;
 
 public abstract class Propriedade {
-    // 1 = disponível, 0 = indisponível
+    private int id;
     private int disponivel;
     private String titulo;
     private String descricao;
@@ -15,7 +15,7 @@ public abstract class Propriedade {
     private String imagem;
     private Proprietario proprietario;
 
-    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem) {
+    public Propriedade(int id, String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem) {
         if (titulo == null || titulo.trim().isEmpty()) {
             throw new IllegalArgumentException("O título da propriedade não pode ser vazio ou conter apenas espaços em branco.");
         }
@@ -32,6 +32,7 @@ public abstract class Propriedade {
             throw new IllegalArgumentException("O proprietário não pode ser nulo.");
         }
 
+        this.id = id;
         this.disponivel = 1; // Padrão: disponível
         this.titulo = titulo;
         this.descricao = descricao;
@@ -42,7 +43,20 @@ public abstract class Propriedade {
         this.imagem = imagem;
     }
 
+    public Propriedade(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem) {
+        this(0, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void exibirPropriedade() {
+        System.out.println("ID da Propriedade: " + id);
         System.out.println("Está disponível?: " + (disponivel == 1 ? "Sim!" : "Não!"));
         System.out.println("Título: " + titulo);
         System.out.println("Descrição: " + descricao);
@@ -55,6 +69,7 @@ public abstract class Propriedade {
             System.out.println("Proprietário: Não atribuído");
         }
         System.out.println("Imagem: " + (imagem != null && !imagem.isEmpty() ? imagem : "N/A"));
+        System.out.println();
     }
 
     // Getters e Setters
@@ -156,21 +171,24 @@ public abstract class Propriedade {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true; // mesmo objeto
-        if (o == null || getClass() != o.getClass()) return false; // null ou classes diferentes
+        if (this == o) return true; 
+        if (o == null || getClass() != o.getClass()) return false; 
 
         Propriedade that = (Propriedade) o;
 
-        // Vamos considerar duas propriedades iguais se título, localização e proprietário forem iguais
-        return Objects.equals(titulo, that.titulo) &&
-                Objects.equals(localizacao, that.localizacao) &&
-                Objects.equals(proprietario, that.proprietario);
+        if (this.id != 0 && that.id != 0) {
+            return id == that.id;
+        } else {
+            return Objects.equals(titulo, that.titulo) &&
+                   Objects.equals(localizacao, that.localizacao) &&
+                   Objects.equals(proprietario, that.proprietario);
+        }
     }
 
     @Override
     public int hashCode() {
         // Consistente com equals: usa título, localização e proprietário
-        return Objects.hash(titulo, localizacao, proprietario);
+        return Objects.hash(id, titulo, localizacao, proprietario);
     }
 
     public abstract double calcularPrecoTotal(int dias);

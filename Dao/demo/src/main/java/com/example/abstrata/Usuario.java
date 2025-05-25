@@ -1,9 +1,15 @@
 package com.example.abstrata;
 
-public abstract class Usuario {
-    private String nome, email, senha;
+import java.util.Objects; // Necessário para Objects.hash e Objects.equals
 
-    public Usuario(String nome, String email, String senha) {
+public abstract class Usuario {
+    private int id; // Adicionado o ID para persistência
+    private String nome;
+    private String email;
+    private String senha;
+
+    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
+    public Usuario(int id, String nome, String email, String senha) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio.");
         }
@@ -13,41 +19,79 @@ public abstract class Usuario {
         if (senha == null || senha.trim().isEmpty()) {
             throw new IllegalArgumentException("Senha não pode ser vazia.");
         }
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+    }
+
+    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
+    public Usuario(String nome, String email, String senha) {
+        // O ID será definido pelo banco de dados após a inserção
+        this(0, nome, email, senha); // Chama o outro construtor com ID 0
+    }
+
+    // Getter e Setter para o ID
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email não pode ser vazio.");
         }
-
         this.email = email;
     }
+
     public String getSenha() {
         return senha;
     }
+
     public void setSenha(String senha) {
         if (senha == null || senha.trim().isEmpty()) {
             throw new IllegalArgumentException("Senha não pode ser vazia.");
         }
-
         this.senha = senha;
     }
-      public String getNome() {
+
+    public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio.");
         }
-
         this.nome = nome;
     }
 
+    // Método abstrato a ser implementado pelas subclasses
     public abstract void imprimirDados();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        // Se o ID for 0, significa que ainda não foi persistido, então comparamos por outros campos.
+        if (this.id != 0 && usuario.id != 0) {
+            return id == usuario.id;
+        } else {
+            return Objects.equals(nome, usuario.nome) &&
+                   Objects.equals(email, usuario.email);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, email);
+    }
 }

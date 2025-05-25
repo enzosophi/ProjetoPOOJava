@@ -6,15 +6,26 @@ public class Casa extends Propriedade {
     private boolean possuiPiscina;
     private double precoPorPessoa;
 
-    public Casa(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, boolean possuiPiscina, double precoPorPessoa) {
-        super(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
+    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
+    public Casa(int id, String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, boolean possuiPiscina, double precoPorPessoa) {
+        super(id, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         this.possuiPiscina = possuiPiscina;
-        if (precoPorPessoa <= 0) {
-            throw new IllegalArgumentException("O preço por pessoa não pode ser menor ou igual a zero.");
+        if (precoPorPessoa < 0) {
+            throw new IllegalArgumentException("O preço por pessoa não pode ser negativo.");
         }
         this.precoPorPessoa = precoPorPessoa;
     }
-    
+
+    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
+    public Casa(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, boolean possuiPiscina, double precoPorPessoa) {
+        super(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
+        this.possuiPiscina = possuiPiscina;
+        if (precoPorPessoa < 0) {
+            throw new IllegalArgumentException("O preço por pessoa não pode ser negativo.");
+        }
+        this.precoPorPessoa = precoPorPessoa;
+    }
+
     public boolean isPossuiPiscina() {
         return possuiPiscina;
     }
@@ -42,7 +53,7 @@ public class Casa extends Propriedade {
         System.out.println("Preço por Pessoa: " + String.format("%.2f", precoPorPessoa));
     }
 
-    @Override 
+    @Override
     public double calcularPrecoTotal(int dias) {
         return (getPrecoPorNoite() + (precoPorPessoa * getCapacidade())) * dias;
     }

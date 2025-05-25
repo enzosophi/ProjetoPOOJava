@@ -10,24 +10,27 @@ import java.sql.*;
 
 
 public class ClienteDao  implements IClienteDAO{
-
     
     @Override
     public void inserir(Cliente cliente) {
-    String sql = "INSERT INTO CLIENTE (NOME, EMAIL, SENHA) VALUES (?,?,?)";
+        String sql = "INSERT INTO cliente (nome, email, senha) VALUES (?, ?, ?)";
+        try (
+            Connection conn = ConnectionHelper.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, cliente.getEmail());
+            stmt.setString(3, cliente.getSenha());
+            stmt.executeUpdate();
 
-    try (
-        Connection connection = ConnectionHelper.getConnection();
-        PreparedStatement mStatement = connection.prepareStatement(sql)) {
-        mStatement.setString(1, cliente.getNome());
-        mStatement.setString(2, cliente.getEmail());
-        mStatement.setString(3, cliente.getSenha());
-
-        mStatement.executeUpdate();
-        System.out.println("Cliente cadastrado com sucesso!");
-    } catch (SQLException e) {
-        System.err.println("Erro ao cadastrar cliente: " + e.getMessage());
-    }
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                cliente.setId(rs.getInt(1));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao inserir cliente: " + e.getMessage());
+        }
     }
 
     @Override

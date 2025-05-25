@@ -4,8 +4,22 @@ import com.example.abstrata.Propriedade;
 
 public class Apartamento extends Propriedade {
     private int andar;
-    private double taxa; 
+    private double taxa;
 
+    // Construtor para quando o ID é conhecido
+    public Apartamento(int id, String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, int andar, double taxa) {
+        super(id, titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
+        if (andar <= 0) {
+            throw new IllegalArgumentException("O andar não pode ser menor ou igual a zero.");
+        }
+        this.andar = andar;
+        if (taxa < 0) {
+            throw new IllegalArgumentException("A taxa não pode ser negativa.");
+        }
+        this.taxa = taxa;
+    }
+
+    // Construtor para quando o ID ainda não é conhecido
     public Apartamento(String titulo, String descricao, String localizacao, int capacidade, double precoPorNoite, Proprietario proprietario, String imagem, int andar, double taxa) {
         super(titulo, descricao, localizacao, capacidade, precoPorNoite, proprietario, imagem);
         if (andar <= 0) {
@@ -40,7 +54,7 @@ public class Apartamento extends Propriedade {
         this.taxa = taxa;
     }
 
-    @Override 
+    @Override
     public void exibirPropriedade() {
         super.exibirPropriedade();
         System.out.println("Tipo: Apartamento");
@@ -48,8 +62,8 @@ public class Apartamento extends Propriedade {
         System.out.println("Taxa Adicional: " + String.format("%.2f", taxa));
     }
 
-    @Override 
+    @Override
     public double calcularPrecoTotal(int dias) {
-        return taxa * (getPrecoPorNoite() * dias);
+        return taxa + (getPrecoPorNoite() * dias);
     }
 }

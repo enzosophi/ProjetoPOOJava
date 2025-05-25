@@ -1,24 +1,25 @@
 package com.example;
 
-import com.example.abstrata.Usuario;
 import com.example.abstrata.Propriedade;
-
+import com.example.abstrata.Usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects; // Importe Objects para o equals e hashCode
 
 public class Cliente extends Usuario {
-    private int id;  
+
     private List<Reserva> reservasRealizadas;
 
-    public Cliente(int id,String nome, String email, String senha) {
-        super(nome, email, senha);
+    // Construtor para quando o ID é conhecido (e.g., vindo do banco de dados)
+    public Cliente(int id, String nome, String email, String senha) {
+        super(id, nome, email, senha); // Chama o construtor de Usuario com ID
         this.reservasRealizadas = new ArrayList<>();
-        this.id = id;
     }
 
-     public Cliente(String nome, String email, String senha) {
-        super(nome, email, senha);
+    // Construtor para quando o ID ainda não é conhecido (e.g., nova criação)
+    public Cliente(String nome, String email, String senha) {
+        super(nome, email, senha); // Chama o construtor de Usuario sem ID (que internamente chama com ID 0)
         this.reservasRealizadas = new ArrayList<>();
     }
 
@@ -26,19 +27,17 @@ public class Cliente extends Usuario {
         if (p == null) {
             throw new IllegalArgumentException("A propriedade não pode ser nula para reserva.");
         }
-
         if (checkin == null || checkOut == null) {
             throw new IllegalArgumentException("As datas de check-in e check-out não podem ser nulas.");
         }
-
         if (checkin.isAfter(checkOut)) {
-            throw new IllegalArgumentException("A data de check-in não pode ser posterior à data de check-out.");
+            throw new IllegalArgumentException("A data de check-in deve ser anterior à data de check-out.");
         }
 
         if (p.isDisponivel()) {
-            Reserva novaReserva = new Reserva(p, this, checkin, checkOut);
-            novaReserva.alugarPropriedade();
-            this.reservasRealizadas.add(novaReserva); 
+            Reserva novaReserva = new Reserva(p, this, checkin, checkOut); // 'this' refere-se ao próprio objeto Cliente
+            novaReserva.alugarPropriedade(); // Marca a propriedade como indisponível
+            this.reservasRealizadas.add(novaReserva);
             System.out.println("Reserva realizada com sucesso para a propriedade: " + p.getTitulo());
             System.out.println("Custo total da reserva: R$ " + String.format("%.2f", novaReserva.getCustoTotal()));
         } else {
@@ -59,7 +58,7 @@ public class Cliente extends Usuario {
     }
 
     public void listarPropriedadesDisponiveis(List<Propriedade> todasPropriedades) {
-        boolean encontrouDisponivel = false; 
+        boolean encontrouDisponivel = false;
         System.out.println("\n--- Propriedades Disponíveis para Aluguel ---");
         for (Propriedade p : todasPropriedades) {
             if (p.isDisponivel()) {
@@ -69,25 +68,18 @@ public class Cliente extends Usuario {
             }
         }
         if (!encontrouDisponivel) {
-            System.out.println("Nenhuma propriedade disponível para aluguel.");
+            System.out.println("Nenhuma propriedade disponível no momento.");
         }
     }
 
-    @Override 
+    // Sobrescrevendo o método abstrato de Usuario
+    @Override
     public void imprimirDados() {
         System.out.println("Tipo de Usuário: Cliente");
-        System.out.println("ID: " + id);
+        System.out.println("ID: " + getId()); // getId() agora vem da classe Usuario
         System.out.println("Nome: " + getNome());
         System.out.println("Email: " + getEmail());
         System.out.println("Número de reservas realizadas: " + reservasRealizadas.size());
-    }
-
-       public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public List<Reserva> getReservasRealizadas() {
@@ -98,5 +90,16 @@ public class Cliente extends Usuario {
         this.reservasRealizadas = reservasRealizadas;
     }
 
-    
+    @Override
+    public boolean equals(Object o) {
+        // Chama o equals da superclasse Usuario que agora compara IDs
+        // Isso é suficiente se o ID for a chave primária e o identificador único.
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        // Chama o hashCode da superclasse Usuario que agora inclui o ID
+        return super.hashCode();
+    }
 }
