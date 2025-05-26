@@ -101,14 +101,14 @@ public class ProprietarioDao implements IProprietarioDAO {
     public List<Proprietario> buscarTodos() throws SQLException {
         String sql = "SELECT * FROM PROPRIETARIO";
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Proprietario> proprietarios = new ArrayList<>();
 
         try {
             conn = ConnectionHelper.getConnection();
             stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Proprietario proprietario = new Proprietario(
